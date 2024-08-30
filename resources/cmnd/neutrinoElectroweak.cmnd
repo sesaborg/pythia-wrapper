@@ -1,0 +1,47 @@
+! neutrinoElectroweak.cmnd
+! This file contains Pythia8 commands for simulating the deep inelastic scattering electroweak interaction of neutrinos with nucleons.
+Init:showChangedSettings = on
+
+! gamma^*/Z^0 is relevant at these energies
+WeakZ0:gmZmode = 0
+
+! Enables t-channel CC and NC exchange, which will occur between neutrinos and partons
+WeakBosonExchange:all = on
+
+! Enables gamma^*/Z^0 and W^+- production, which could happen.
+WeakSingleBoson::all = on
+WeakDoubleBoson::all = on
+
+! According to the documentation, these interactions double count those found in WeakSingleBoson
+! Unsure which of the two should be used
+WeakBosonAndParton:all = off
+
+! Photon stuff
+PhotonCollision:all = on
+
+PhotonParton:all = on
+
+PromptPhoton:all = on
+
+
+! Beam Configuration
+! Fixed target with momentum of the neutrino specified (sourced from IceTray sampling) and the target is approximately at rest.
+Beams:frameType = 3
+Beams:pxB = 0.
+Beams:pyB = 0.
+Beams:pzB = 0.
+
+! For current test, only use electron neutrinos and protons
+Beams:idA = 14
+Beams:idB = 2212
+
+Beams:pxA = 0.
+Beams:pyA = 0.
+
+! For basically any energy neutrinos, p ~= e (since c = 1 in pythia). Also note energies are given in GeV.
+Beams:pzA = 1e6                    ! 100 PeV
+
+! The shapes of the beams aren't important here, so they are kept as default to produce a vertex at the origin.
+
+! PDF choice
+PDF:pSet = LHAPDF6:CT14qed_proton

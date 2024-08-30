@@ -5,6 +5,7 @@
 #include "icetray/I3Module.h"
 #include "Pythia8/Pythia.h"
 
+/// @brief A module that encapsulates Pythia that can be used as an event generator.
 class I3PythiaWrapperModule : public I3ConditionalModule
 {
 public:
@@ -13,6 +14,7 @@ public:
         AddParameter("PythiaCommands",
                      "Commands to pass to Pythia.",
                      pythiaCommands_);
+        pythiaCommandPath_ = "./pythia-wrapper/resources/cmnd/neutrinoElectroweak.cmnd";
         AddParameter("PythiaCommandPath",
                      "Path to the .cmnd file with pythia commands.",
                      pythiaCommandPath_);
@@ -28,6 +30,8 @@ public:
 
     bool ShouldDoProcess(I3FramePtr frame);
 
+    /// @brief Lets you define a custom statistics function callback that gets called after every Pythia event.
+    /// @param stats The statistics callback function, taking a Pythia8 Event as an argument.
     void SetStatsFunction(void (*stats)(Pythia8::Event &))
     {
         stats_ = stats;
