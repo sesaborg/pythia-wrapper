@@ -37,31 +37,21 @@ void I3PythiaWrapperModule::DAQ(I3FramePtr frame)
         log_error("Pythia failed to initialize!");
     return;
 
-    // int nMu = 0;
-    // int nC = 0;
     if (pythia.next())
     {
-        for (int i = 0; i < pythia.event.size(); i++)
+        if (stats_ != nullptr)
         {
-            // if (pythia.event[i].isFinal()) {
-            //     e.fill(pythia.event[i].e()*1e9);
-            // }
-
-            // if (pythia.event[i].isFinal() && pythia.event[i].idAbs() == 13)
-            // {
-            //     nMu++;
-            // }
-
-            // if (pythia.event[i].idAbs() == 4)
-            // {
-            //     nC++;
-            // }
+            stats_(event);
         }
     }
-    // mu.fill(nMu);
-    // c.fill(nC);
 
-    pythia.stat();
+    auto level = GetIcetrayLogger()->LogLevelForUnit("pythia-wrapper");
+    if (level <= I3LOG_DEBUG)
+    {
+        pythia.stat();
+    }
+
+    // I3MCTree construction goes here :)
 }
 
 bool I3PythiaWrapperModule::ShouldDoProcess(I3FramePtr frame)
